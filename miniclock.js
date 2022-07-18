@@ -32,3 +32,8 @@ function displayInRussian() {
 		target.innerText = text;
 	}
 }
+
+if (navigator.language.startsWith("ru")) {
+	displayInRussian();
+	setInterval(displayInRussian, 1000);
+}
