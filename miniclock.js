@@ -1,3 +1,5 @@
+// © Igor Gorlov, 2022. This work is protected by BSD 3-clause license.
+
 // Displays Russian version of date and time in all elements with .miniclock class.
 function displayInRussian() {
 	const weekDayStrings = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
