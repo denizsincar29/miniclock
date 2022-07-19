@@ -35,7 +35,13 @@ function displayInRussian() {
 	}
 }
 
-if (navigator.language.startsWith("ru")) {
-	displayInRussian();
-	setInterval(displayInRussian, 1000);
+// Detects end-user's preferred language and calls the appropriate printing function.
+function start() {
+	if (navigator.language.startsWith("ru")) {
+		displayInRussian();
+		setInterval(displayInRussian, 1000);
+	}
 }
+
+// Start the whole system when DOM is ready.
+document.addEventListener("DOMContentLoaded", start);
