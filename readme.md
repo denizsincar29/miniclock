@@ -13,6 +13,10 @@ Just attach `miniclock.js` to an HTML document:
 After the inclusion, no additional actions is required: the current date and time will be displayed and continuously
 updated every second inside any HTML element that has `.miniclock` CSS class.
 
+## Language Support
+
+Depending on the end-user's prefered language, Miniclock can report date and time either in Russian or in English; the
+latter is default for all user languages except of Russian.
 
 ## For Contributors
 
