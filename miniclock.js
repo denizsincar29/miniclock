@@ -5,87 +5,42 @@ To prevent name conflicts, all Miniclock functions (defined below) reside in a g
 which works as a namespace.
 */
 let miniclock = {};
+miniclock.language=navigator.language.split("_")[0];
+miniclock.locale=null;
 
-// Displays Russian version of date and time in all elements with .miniclock class.
-miniclock.displayInRussian = () => {
-	const weekDayStrings = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
-	const monthStrings = [
-		"января",
-		"февраля",
-		"марта",
-		"апреля",
-		"мая",
-		"июня",
-		"июля",
-		"августа",
-		"сентября",
-		"октября",
-		"ноября",
-		"декабря"
-	];
+// Displays date and time in all elements with .miniclock class.
+miniclock.display = () => {
 	let now = new Date();
-	let text =
-		"Сегодня " +
-		weekDayStrings[now.getDay()] +
-		", " +
-		now.getDate() +
-		" " +
-		monthStrings[now.getMonth()] +
-		" " +
-		now.getFullYear() +
-		" года, " +
-		now.toLocaleTimeString(new Intl.Locale("ru"));
+	let text =miniclock.locale["format"];
+	text=text.replace("%wd", miniclock.locale["weekDays"][now.getDay()])
+		.replace("%dn", now.getDate())
+		.replace("mn", monthStrings[now.getMonth()])
+		.replace("yn",now.getFullYear())
+		.replace("yw",miniclock.locale["yearWord"])
+		.replace("%lt",now.toLocaleTimeString(new Intl.Locale(miniclock.language)));
 	let targets = document.getElementsByClassName("miniclock");
 	for (let target of targets) {
 		target.innerText = text;
 	}
 };
 
-// Displays English version of date and time in all elements with .miniclock class.
-miniclock.displayInEnglish = () => {
-	const weekDayStrings = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	const monthStrings = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December"
-	];
-	let now = new Date();
-	let text =
-		"Today is " +
-		weekDayStrings[now.getDay()] +
-		", " +
-		monthStrings[now.getMonth()] +
-		" " +
-		now.getDate() +
-		", " +
-		now.getFullYear() +
-		", " +
-		now.toLocaleTimeString(new Intl.Locale("en"));
-	let targets = document.getElementsByClassName("miniclock");
-	for (let target of targets) {
-		target.innerText = text;
-	}
-};
+miniclock.initData=function(){
+	load_json("./locale/"+miniclock.language+".json")
+		.then(miniclock.start);
+}
 
 // Detects end-user's preferred language and calls the appropriate printing function.
 miniclock.start = () => {
-	if (navigator.language.startsWith("ru")) {
-		miniclock.displayInRussian();
-		setInterval(miniclock.displayInRussian, 1000);
-	} else {
-		miniclock.displayInEnglish();
-		setInterval(miniclock.displayInEnglish, 1000);
-	}
+	miniclock.display();
+	setInterval(miniclock.display, 1000);
+
 };
 
 // Start the whole system when DOM is ready.
-document.addEventListener("DOMContentLoaded", miniclock.start);
+document.addEventListener("DOMContentLoaded", miniclock.initData);
+
+// global functions
+async function load_json(filename){
+	let response=await fetch(filename);
+	miniclock.locale=await response.json();
+}

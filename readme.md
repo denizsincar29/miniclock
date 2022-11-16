@@ -18,6 +18,17 @@ updated every second inside any HTML element that has `.miniclock` CSS class.
 Depending on the end-user's prefered language, Miniclock can report date and time either in Russian or in English; the
 latter is default for all user languages except of Russian.
 
+# demo
+
+To use the demo.html, you need to run a simple webserver. You need to install python for it to work.
+windows users: just run the localhost_webserver.bat
+Linux and Mac OS users: just run the folowing command in the terminal
+```
+python3 -m http.server
+```
+and go to localhost:8000 url in your browser on the same machine.
+To stop the http server, hit ctrl+c
+
 ## For Contributors
 
 This project adheres to
