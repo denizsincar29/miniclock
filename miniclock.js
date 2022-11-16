@@ -14,9 +14,9 @@ miniclock.display = () => {
 	let text =miniclock.locale["format"];
 	text=text.replace("%wd", miniclock.locale["weekDays"][now.getDay()])
 		.replace("%dn", now.getDate())
-		.replace("mn", monthStrings[now.getMonth()])
-		.replace("yn",now.getFullYear())
-		.replace("yw",miniclock.locale["yearWord"])
+		.replace("%mn", miniclock.locale["months"][now.getMonth()])
+		.replace("%yn",now.getFullYear())
+		.replace("%yw",miniclock.locale["yearWord"])
 		.replace("%lt",now.toLocaleTimeString(new Intl.Locale(miniclock.language)));
 	let targets = document.getElementsByClassName("miniclock");
 	for (let target of targets) {
@@ -42,5 +42,14 @@ document.addEventListener("DOMContentLoaded", miniclock.initData);
 // global functions
 async function load_json(filename){
 	let response=await fetch(filename);
+	if(!response.ok){
+		// if an error occurred, than maybe we don't support your language. loading the english language pack.
+		response=await fetch("./locale/en.json");
+}
+	// if again response is not ok, then it's something enormous. js loaded but json is not!
+	if(!response.ok){
+		alert("miniclock error! a very strange and unusual error occurred. please contact the developer. https://github.com/igor-gorlov/miniclock");
+		return;
+	}
 	miniclock.locale=await response.json();
 }
