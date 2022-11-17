@@ -41,8 +41,9 @@ miniclock.start = () => {
 		let real_div = document.createElement("div");
 		let sr_div = document.createElement("div");
 		real_div.setAttribute("aria-hidden","true");
+		sr_div.setAttribute("aria-polite","off");
 		sr_div.setAttribute("aria-label","miniclock area");
-		sr_div.setAttribute("tabindex","0");
+		// sr_div.setAttribute("tabindex","0");
 		sr_div.classList.add("visually-hidden");
 		target.appendChild(real_div); target.appendChild(sr_div);
 
